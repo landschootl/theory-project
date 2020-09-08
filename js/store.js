@@ -21,13 +21,38 @@ Vue.component('manageStore', {
   `
 });
 
+Vue.component('catalogStore', {
+  props: {
+    products: Array
+  },
+  methods: {
+    addProductInBasket(product) {
+      console.log(`Ajout du produit ${product.name} à mon panier`);
+    }
+  },
+  template: `
+    <div>
+        <h3>Les produits en vente :</h3>
+        <div v-for="(product, index) in products" :key="index">
+            <span>{{product.name}} - {{product.priceHt}} € <button @click="addProductInBasket(product)">Ajouter à mon panier</button></span>
+        </div>
+    </div>
+  `
+});
+
 new Vue({
   el:'#app',
   data: {
     store: {
       name: 'Magasin de Fred !',
       isOpen: false
-    }
+    },
+    products: [
+      {name: 'Banane', priceHt: 1.50},
+      {name: 'Oeuf', priceHt: 2.20},
+      {name: 'Kiwi', priceHt: 3.30},
+      {name: 'Lait', priceHt: 0.90}
+    ]
   },
   template: `
     <div id="store">
@@ -39,7 +64,7 @@ new Vue({
           <manage-store :store="store"></manage-store>
         </div>  
         <div class="sub-bloc">
-          
+          <catalog-store :products="products"></catalog-store>
         </div>
       </div>  
     </div>
